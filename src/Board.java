@@ -37,10 +37,11 @@ public class Board extends JPanel implements ActionListener {
     int[] random_x = {25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 675, 700, 725,750, 775, 800, 825, 850};
     int[] random_y = {75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500, 525, 550, 575, 600, 625};
 
-    private ImageIcon titleImage = new ImageIcon("./src/resources/assets/snaketitle.jpg");
+    private ImageIcon titleImage = new ImageIcon("./src/resources/assets/snaketitle.png");
 
     int level = 1;
     boolean start = false;
+    boolean pause = false;
 
     Board() {
         addKeyListener(new TAdapter());
@@ -117,7 +118,7 @@ public class Board extends JPanel implements ActionListener {
         g.drawString("SCORE: " + score, 750, 50);
 
 
-        if(inGame) {
+        if(inGame && !pause) {
             g.drawImage(apple, apple_x, apple_y, this);
 
             if(leftDirection) {
@@ -135,6 +136,8 @@ public class Board extends JPanel implements ActionListener {
             }
 
             Toolkit.getDefaultToolkit().sync();
+        }else if(pause) {
+            pauseGame(g);
         }else {
             gameOver(g);
         }
@@ -169,6 +172,16 @@ public class Board extends JPanel implements ActionListener {
         g.setFont(new Font("Monospaced", Font.PLAIN, 30));
         g.drawString(levMsg, 380, 400);
 
+    }
+
+    public void pauseGame(Graphics g) {
+        g.setColor(Color.GREEN);
+        g.setFont(new Font("Arial", Font.BOLD, 50));
+        g.drawString("Game is Paused", 250, 300);
+
+        g.setColor(Color.GRAY);
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+        g.drawString("Press SPACE to resume", 350, 350);
     }
 
     public void checkCollision() {
@@ -276,6 +289,8 @@ public class Board extends JPanel implements ActionListener {
             if(key == KeyEvent.VK_SPACE && !inGame) {
                 inGame = true;
                 start = true;
+            }else if(key == KeyEvent.VK_SPACE && inGame) {
+                pause = pause ? false : true;
             }
 
             if(key == KeyEvent.VK_CONTROL && !inGame) {
