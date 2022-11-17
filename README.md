@@ -7,6 +7,7 @@
   <li>Added different levels in game to make it interesting.</li>
   <li>Added pause/resume functionality.</li>
   <li>You can also view your score while playing the game.</li>
+  <li>Added different heads for snake, depends on the direction of snake.</li>
  </ul>
 
 
